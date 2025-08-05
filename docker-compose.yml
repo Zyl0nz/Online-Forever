@@ -6,4 +6,8 @@ services:
     restart: always
     ports: []
     environment:
-      TOKEN: # put your token here
+      TOKEN1: # put your first token here
+      TOKEN2: # put your second token here
+      TOKEN3: # put your third token here
+      TOKEN4: # put your third token here
+      TOKEN5: # put your third token here
