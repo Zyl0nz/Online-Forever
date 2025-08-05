@@ -11,7 +11,7 @@ from keep_alive import keep_alive
 init(autoreset=True)
 
 status = "online"  # online/dnd/idle
-custom_status = ""  # Custom Status (not used)
+custom_status = "https://www.youtube.com/watch?v=uMZiaJ4speo"  # Custom Status
 
 usertoken = os.getenv("TOKEN")
 if not usertoken:
@@ -53,7 +53,20 @@ async def onliner(token, status):
             "op": 3,
             "d": {
                 "since": 0,
-                "activities": [],
+                "activities": [
+                    {
+                        "type": 4,
+                        "state": custom_status,
+                        "name": "Custom Status",
+                        "id": "custom",
+                                #Uncomment the below lines if you want an emoji in the status
+                                #"emoji": {
+                                    #"name": "emoji name",
+                                    #"id": "emoji id",
+                                    #"animated": False,
+                                #},
+                            }
+                        ],
                 "status": status,
                 "afk": False,
             },
