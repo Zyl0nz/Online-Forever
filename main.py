@@ -11,12 +11,13 @@ from keep_alive import keep_alive
 init(autoreset=True)
 
 status = "online"  # online/dnd/idle
-custom_status = "https://www.youtube.com/watch?v=uMZiaJ4speo"  # Custom Status
+custom_status = ""  # Custom Status
 
-# Get multiple tokens from environment variables
+# Collect tokens from environment variables TOKEN1..TOKEN10
 tokens = []
-for i in range(1, 11):  # Adjust the range depending on how many tokens you want to support
+for i in range(1, 11):
     token = os.getenv(f"TOKEN{i}")
+    print(f"DEBUG: TOKEN{i} = {token}")  # Debug print to confirm tokens are read
     if token:
         tokens.append(token)
 
@@ -24,7 +25,7 @@ if not tokens:
     print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}] Please add at least one token inside Secrets.")
     sys.exit()
 
-# Validate each token and gather user info
+# Validate tokens and gather user info
 users_info = []
 for token in tokens:
     headers = {"Authorization": token, "Content-Type": "application/json"}
@@ -74,10 +75,11 @@ async def onliner(token, status, username, userid):
                             "state": custom_status,
                             "name": "Custom Status",
                             "id": "custom",
+                            # Uncomment and edit emoji if needed
                             # "emoji": {
-                            #    "name": "emoji name",
-                            #    "id": "emoji id",
-                            #    "animated": False,
+                            #     "name": "emoji name",
+                            #     "id": "emoji id",
+                            #     "animated": False,
                             # },
                         }
                     ],
@@ -90,7 +92,8 @@ async def onliner(token, status, username, userid):
             online = {"op": 1, "d": "None"}
             await asyncio.sleep(heartbeat / 1000)
             await ws.send(json.dumps(online))
-            # Keep the connection alive
+
+            # Keep connection alive by sending heartbeat every interval
             while True:
                 await asyncio.sleep(heartbeat / 1000)
                 await ws.send(json.dumps(online))
@@ -114,4 +117,3 @@ async def run_all_onliners():
 
 keep_alive()
 asyncio.run(run_all_onliners())
-
