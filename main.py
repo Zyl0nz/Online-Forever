@@ -1,9 +1,4 @@
 import os
-
-# Debug print all tokens from environment to verify they're loaded
-for i in range(1, 11):
-    print(f"DEBUG: TOKEN{i} = {os.getenv(f'TOKEN{i}')}")
-
 import sys
 import json
 import asyncio
@@ -18,9 +13,13 @@ init(autoreset=True)
 status = "online"  # online/dnd/idle
 custom_status = "https://www.youtube.com/watch?v=uMZiaJ4speo"  # Custom Status
 
-# Collect tokens from environment variables TOKEN1, TOKEN2, ... TOKEN10
-tokens = []
+# Debug: print tokens loaded from environment
 for i in range(1, 6):
+    print(f"DEBUG: TOKEN{i} = {os.getenv(f'TOKEN{i}')}")
+
+# Get multiple tokens from environment variables (only 1 to 5)
+tokens = []
+for i in range(1, 6):  # Only TOKEN1 to TOKEN5
     token = os.getenv(f"TOKEN{i}")
     if token:
         tokens.append(token)
@@ -29,7 +28,7 @@ if not tokens:
     print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}] Please add at least one token inside Secrets.")
     sys.exit()
 
-# Validate tokens and get user info
+# Validate each token and gather user info
 users_info = []
 for token in tokens:
     headers = {"Authorization": token, "Content-Type": "application/json"}
@@ -95,7 +94,6 @@ async def onliner(token, status, username, userid):
             online = {"op": 1, "d": "None"}
             await asyncio.sleep(heartbeat / 1000)
             await ws.send(json.dumps(online))
-
             # Keep the connection alive
             while True:
                 await asyncio.sleep(heartbeat / 1000)
