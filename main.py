@@ -11,7 +11,7 @@ from keep_alive import keep_alive
 init(autoreset=True)
 
 status = "online"  # online/dnd/idle
-custom_status = "https://www.youtube.com/watch?v=uMZiaJ4speo"  # Custom Status
+custom_status = ""  # Custom Status
 
 # Debug: print tokens loaded from environment
 for i in range(1, 6):
