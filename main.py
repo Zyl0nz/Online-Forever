@@ -1,4 +1,9 @@
 import os
+
+# Debug print all tokens from environment to verify they're loaded
+for i in range(1, 11):
+    print(f"DEBUG: TOKEN{i} = {os.getenv(f'TOKEN{i}')}")
+
 import sys
 import json
 import asyncio
@@ -11,13 +16,12 @@ from keep_alive import keep_alive
 init(autoreset=True)
 
 status = "online"  # online/dnd/idle
-custom_status = ""  # Custom Status
+custom_status = "https://www.youtube.com/watch?v=uMZiaJ4speo"  # Custom Status
 
-# Collect tokens from environment variables TOKEN1..TOKEN10
+# Collect tokens from environment variables TOKEN1, TOKEN2, ... TOKEN10
 tokens = []
-for i in range(1, 11):
+for i in range(1, 6):
     token = os.getenv(f"TOKEN{i}")
-    print(f"DEBUG: TOKEN{i} = {token}")  # Debug print to confirm tokens are read
     if token:
         tokens.append(token)
 
@@ -25,7 +29,7 @@ if not tokens:
     print(f"{Fore.WHITE}[{Fore.RED}-{Fore.WHITE}] Please add at least one token inside Secrets.")
     sys.exit()
 
-# Validate tokens and gather user info
+# Validate tokens and get user info
 users_info = []
 for token in tokens:
     headers = {"Authorization": token, "Content-Type": "application/json"}
@@ -75,11 +79,10 @@ async def onliner(token, status, username, userid):
                             "state": custom_status,
                             "name": "Custom Status",
                             "id": "custom",
-                            # Uncomment and edit emoji if needed
                             # "emoji": {
-                            #     "name": "emoji name",
-                            #     "id": "emoji id",
-                            #     "animated": False,
+                            #    "name": "emoji name",
+                            #    "id": "emoji id",
+                            #    "animated": False,
                             # },
                         }
                     ],
@@ -93,7 +96,7 @@ async def onliner(token, status, username, userid):
             await asyncio.sleep(heartbeat / 1000)
             await ws.send(json.dumps(online))
 
-            # Keep connection alive by sending heartbeat every interval
+            # Keep the connection alive
             while True:
                 await asyncio.sleep(heartbeat / 1000)
                 await ws.send(json.dumps(online))
