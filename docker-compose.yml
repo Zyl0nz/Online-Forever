@@ -4,10 +4,16 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    ports: []
+    ports:
+      - "8080:8080"
     environment:
-      TOKEN1: # put your first token here
-      TOKEN2: # put your second token here
-      TOKEN3: # put your third token here
-      TOKEN4: # put your third token here
-      TOKEN5: # put your third token here
+      TOKEN1: your_token_1_here
+      TOKEN2: your_token_2_here
+      TOKEN3: your_token_3_here
+      TOKEN4: your_token_4_here
+      TOKEN5: your_token_5_here
+      TOKEN6: your_token_6_here
+      TOKEN7: your_token_7_here
+      TOKEN8: your_token_8_here
+      TOKEN9: your_token_9_here
+      TOKEN10: your_token_10_here
