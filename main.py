@@ -13,13 +13,13 @@ init(autoreset=True)
 status = "online"  # online/dnd/idle
 custom_status = ""  # Custom Status
 
-# Debug: print tokens loaded from environment
-for i in range(1, 6):
+# Debug: print tokens loaded from environment variables TOKEN1 to TOKEN10
+for i in range(1, 11):
     print(f"DEBUG: TOKEN{i} = {os.getenv(f'TOKEN{i}')}")
 
-# Get multiple tokens from environment variables (only 1 to 5)
+# Get multiple tokens from environment variables TOKEN1 to TOKEN10
 tokens = []
-for i in range(1, 6):  # Only TOKEN1 to TOKEN5
+for i in range(1, 11):
     token = os.getenv(f"TOKEN{i}")
     if token:
         tokens.append(token)
@@ -78,11 +78,6 @@ async def onliner(token, status, username, userid):
                             "state": custom_status,
                             "name": "Custom Status",
                             "id": "custom",
-                            # "emoji": {
-                            #    "name": "emoji name",
-                            #    "id": "emoji id",
-                            #    "animated": False,
-                            # },
                         }
                     ],
                     "status": status,
